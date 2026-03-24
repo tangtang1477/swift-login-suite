@@ -207,8 +207,8 @@ const LoginPage = () => {
       {/* Footer */}
       <div className="absolute bottom-4 w-full text-center text-xs leading-[18px] text-mf-text-tertiary z-10">
         © 2026 MovieFlow. All rights reserved.{" "}
-        <a href="#" className="text-mf-link hover:underline ml-2">Contact Us</a>
-        <a href="#" className="text-mf-link hover:underline ml-2">Blog</a>
+        <a href="#" className="text-mf-link underline hover:brightness-110 ml-2">Contact Us</a>
+        <a href="#" className="text-mf-link underline hover:brightness-110 ml-2">Blog</a>
       </div>
     </div>
   );
