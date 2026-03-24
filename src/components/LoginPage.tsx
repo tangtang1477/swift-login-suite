@@ -80,7 +80,7 @@ const LoginPage = () => {
 
         {/* Logo + Title */}
         <div className="flex items-center justify-center gap-3 mb-0">
-          <img src={movieflowLogo} alt="MovieFlow" className="h-[34px]" />
+          <img src={movieflowLogo} alt="MovieFlow" className="h-16" />
         </div>
         <h1 className="text-[28px] leading-[34px] font-semibold text-mf-text text-center mt-3">Welcome to MovieFlow</h1>
         <p className="mt-2 text-sm leading-[22px] text-mf-text-secondary text-center">Your ideas are waiting. Log in to create.</p>
