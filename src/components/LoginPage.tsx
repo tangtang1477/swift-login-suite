@@ -1,6 +1,7 @@
 import { useState, useRef, FormEvent } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import loginBg from "@/assets/login-bg.jpg";
+import movieflowLogo from "@/assets/movieflow-logo.png";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
