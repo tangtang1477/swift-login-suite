@@ -57,33 +57,47 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // MovieFlow custom tokens
+        "mf-page": "hsl(var(--bg-page))",
+        "mf-card": "hsl(var(--bg-card))",
+        "mf-input": "hsl(var(--bg-input))",
+        "mf-border": "hsl(var(--border-default))",
+        "mf-border-hover": "hsl(var(--border-hover))",
+        "mf-border-focus": "hsl(var(--border-focus))",
+        "mf-text": "hsl(var(--text-primary))",
+        "mf-text-secondary": "hsl(var(--text-secondary))",
+        "mf-text-tertiary": "hsl(var(--text-tertiary))",
+        "mf-action": "hsl(var(--action-primary))",
+        "mf-action-hover": "hsl(var(--action-primary-hover))",
+        "mf-action-active": "hsl(var(--action-primary-active))",
+        "mf-link": "hsl(var(--action-link))",
+        "mf-error": "hsl(var(--error-text))",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "var(--radius-card)",
+        control: "var(--radius-control)",
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "card-enter": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "card-enter": "card-enter 220ms ease-out",
       },
     },
   },
