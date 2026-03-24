@@ -89,8 +89,8 @@ const LoginPage = () => {
         )}
 
         {/* Title */}
-        <h1 className="text-[28px] leading-[34px] font-semibold text-mf-text">Welcome back</h1>
-        <p className="mt-2 text-sm leading-[22px] text-mf-text-secondary">Log in to continue creating</p>
+        <h1 className="text-[28px] leading-[34px] font-semibold text-mf-text text-center">Welcome to MovieFlow</h1>
+        <p className="mt-2 text-sm leading-[22px] text-mf-text-secondary text-center">Your inspiration is waiting. Log in to bring your vision to life.</p>
 
         <form onSubmit={handleSubmit} className="mt-6" noValidate>
           {/* Email */}
