@@ -54,7 +54,7 @@ const LoginPage = () => {
       {/* Ambient glow */}
       <div
         className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 blur-[120px]"
-        style={{ background: "radial-gradient(circle, hsl(272 100% 65% / 0.4), transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, hsl(183 85% 70% / 0.4), transparent 70%)" }}
       />
       <div
         className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-15 blur-[100px]"
