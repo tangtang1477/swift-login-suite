@@ -54,7 +54,7 @@ const LoginPage = () => {
       {/* Ambient glow */}
       <div
         className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 blur-[120px]"
-        style={{ background: "radial-gradient(circle, hsl(272 100% 65% / 0.4), transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, hsl(183 85% 70% / 0.4), transparent 70%)" }}
       />
       <div
         className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-15 blur-[100px]"
@@ -89,8 +89,8 @@ const LoginPage = () => {
         )}
 
         {/* Title */}
-        <h1 className="text-[28px] leading-[34px] font-semibold text-mf-text">Welcome back</h1>
-        <p className="mt-2 text-sm leading-[22px] text-mf-text-secondary">Log in to continue creating</p>
+        <h1 className="text-[28px] leading-[34px] font-semibold text-mf-text text-center">Welcome to MovieFlow</h1>
+        <p className="mt-2 text-sm leading-[22px] text-mf-text-secondary text-center">Your inspiration is waiting. Log in to bring your vision to life.</p>
 
         <form onSubmit={handleSubmit} className="mt-6" noValidate>
           {/* Email */}
@@ -165,7 +165,7 @@ const LoginPage = () => {
             type="submit"
             disabled={isSubmitting}
             className="mt-4 w-full h-12 rounded-control bg-mf-action text-[15px] leading-[22px] font-semibold text-primary-foreground transition-all duration-[160ms] ease-out hover:bg-mf-action-hover active:bg-mf-action-active active:translate-y-px disabled:opacity-[0.38] disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            style={{ boxShadow: "0 8px 20px rgba(184,77,255,0.22)" }}
+            style={{ boxShadow: "0 8px 20px rgba(113,240,246,0.22)" }}
           >
             {isSubmitting && <Loader2 size={16} className="animate-spin" />}
             {isSubmitting ? "Logging in..." : "Log in"}
