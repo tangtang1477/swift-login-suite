@@ -165,7 +165,7 @@ const LoginPage = () => {
             type="submit"
             disabled={isSubmitting}
             className="mt-4 w-full h-12 rounded-control bg-mf-action text-[15px] leading-[22px] font-semibold text-primary-foreground transition-all duration-[160ms] ease-out hover:bg-mf-action-hover active:bg-mf-action-active active:translate-y-px disabled:opacity-[0.38] disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            style={{ boxShadow: "0 8px 20px rgba(184,77,255,0.22)" }}
+            style={{ boxShadow: "0 8px 20px rgba(113,240,246,0.22)" }}
           >
             {isSubmitting && <Loader2 size={16} className="animate-spin" />}
             {isSubmitting ? "Logging in..." : "Log in"}

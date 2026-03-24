@@ -41,7 +41,7 @@
     --popover-foreground: var(--text-primary);
 
     --primary: var(--action-primary);
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 210 47% 10%;
 
     --secondary: var(--bg-input);
     --secondary-foreground: var(--text-primary);
