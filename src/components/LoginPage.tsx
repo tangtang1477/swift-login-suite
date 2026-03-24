@@ -89,8 +89,10 @@ const LoginPage = () => {
           </div>
         )}
 
-        {/* Title */}
-        <h1 className="text-[28px] leading-[34px] font-semibold text-mf-text text-center">Welcome to MovieFlow</h1>
+        {/* Title with logo */}
+        <div className="flex items-center justify-center gap-2 mb-0">
+          <img src={movieflowLogo} alt="MovieFlow" className="h-9" />
+        </div>
         <p className="mt-2 text-sm leading-[22px] text-mf-text-secondary text-center">Your ideas are waiting. Log in to create.</p>
 
         <form onSubmit={handleSubmit} className="mt-6" noValidate>
