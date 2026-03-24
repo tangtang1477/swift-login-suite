@@ -40,18 +40,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-mf-page overflow-hidden">
-      {/* Background image */}
-      <img
-        src={loginBg}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover"
-        width={1920}
-        height={1080}
-      />
-      {/* Dark overlay to push background down */}
-      <div className="absolute inset-0 bg-mf-page/20" />
+    <div className="relative flex min-h-screen items-center justify-center bg-black overflow-hidden">
       {/* Ambient glow */}
       <div
         className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 blur-[120px]"
