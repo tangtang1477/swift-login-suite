@@ -80,8 +80,8 @@ const LoginPage = () => {
         className="relative z-10 flex flex-col"
         style={{
           width: "440px",
-          minHeight: "716px",
-          marginRight: "32px",
+          maxWidth: "92vw",
+          marginRight: "clamp(16px, 2vw, 32px)",
           background: "rgba(18, 28, 45, 0.72)",
           border: "1px solid rgba(255, 255, 255, 0.08)",
           backdropFilter: "blur(8px)",
