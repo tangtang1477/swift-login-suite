@@ -1,6 +1,5 @@
 import { useState, useRef, FormEvent } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import loginBg from "@/assets/login-bg.jpg";
 import movieflowLogo from "@/assets/movieflow-logo.png";
 
 const LoginPage = () => {
@@ -33,62 +32,71 @@ const LoginPage = () => {
     if (eErr || pErr) return;
 
     setIsSubmitting(true);
-    // Simulate login
     await new Promise((r) => setTimeout(r, 1500));
     setPasswordError("Incorrect password");
     setIsSubmitting(false);
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-black overflow-hidden">
-      {/* Ambient glow */}
-      <div
-        className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 blur-[120px]"
-        style={{ background: "radial-gradient(circle, hsl(183 85% 70% / 0.4), transparent 70%)" }}
-      />
-      <div
-        className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-15 blur-[100px]"
-        style={{ background: "radial-gradient(circle, hsl(200 80% 50% / 0.3), transparent 70%)" }}
-      />
-
-      {/* Logo */}
-      <div className="absolute top-6 left-8 z-10">
-        <span className="text-xl font-bold text-mf-text">
-          MovieFlow
-          <span className="ml-1.5 text-[10px] font-medium px-1.5 py-0.5 rounded-full border border-mf-border text-mf-text-tertiary align-top">
-            Beta
-          </span>
-        </span>
-      </div>
-
+    <div
+      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      style={{ background: "#000000", fontFamily: "Arial, sans-serif" }}
+    >
       {/* Card */}
       <div
-        className="relative z-10 w-[440px] max-w-[92vw] rounded-card border border-[rgba(255,255,255,0.08)] px-8 py-8 animate-card-enter"
+        className="relative z-10 w-[440px] max-w-[92vw] animate-card-enter"
         style={{
           background: "rgba(18, 28, 45, 0.72)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          boxShadow: "0 24px 72px rgba(2, 6, 23, 0.45)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          borderRadius: "16px",
+          padding: "64px 32px 32px",
         }}
       >
         {/* Server error */}
         {serverError && (
-          <div className="mb-6 rounded-control px-4 py-3 text-xs leading-[18px] text-mf-error" style={{ background: "rgba(248,113,113,0.10)" }}>
+          <div
+            className="mb-4 rounded-[12px] px-4 py-3 text-xs leading-[18px]"
+            style={{ background: "rgba(248,113,113,0.10)", color: "hsl(0 94% 72%)" }}
+          >
             {serverError}
           </div>
         )}
 
-        {/* Logo + Title */}
-        <div className="flex items-center justify-center gap-3 mb-0">
-          <img src={movieflowLogo} alt="MovieFlow" className="h-16" />
+        {/* Logo */}
+        <div className="flex justify-center mb-3">
+          <img src={movieflowLogo} alt="MovieFlow" className="w-9 h-9 object-contain" />
         </div>
-        <h1 className="text-[28px] leading-[34px] font-semibold text-mf-text text-center mt-3">Welcome to MovieFlow</h1>
-        <p className="mt-2 text-sm leading-[22px] text-mf-text-secondary text-center">Your ideas are waiting. Log in to create.</p>
+
+        {/* Title */}
+        <h1 className="text-center text-[28px] leading-[34px] font-bold" style={{ color: "#F0F5FA" }}>
+          Welcome to{" "}
+          <span
+            style={{
+              background: "linear-gradient(90deg, #92F1F7 0%, #BA49F7 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            MovieFlow
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="mt-3 text-center text-[16px] leading-[24px]" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+          Your ideas are waiting. Log in to create.
+        </p>
 
         <form onSubmit={handleSubmit} className="mt-6" noValidate>
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-[13px] leading-5 font-medium text-mf-text-secondary mb-2">
+            <label
+              htmlFor="email"
+              className="block text-[14px] leading-[22px] mb-2"
+              style={{ color: "rgba(255, 255, 255, 0.7)" }}
+            >
               Email address
             </label>
             <input
@@ -101,10 +109,20 @@ const LoginPage = () => {
               aria-invalid={!!emailError}
               aria-describedby={emailError ? "email-error" : undefined}
               autoComplete="email"
-              className="w-full h-12 rounded-control bg-mf-input border border-mf-border px-4 text-[15px] leading-[22px] text-mf-text placeholder:text-mf-text-tertiary outline-none transition-colors duration-[160ms] ease-out hover:border-mf-border-hover focus:border-mf-border-focus focus:ring-2 focus:ring-mf-action/20"
+              className="w-full outline-none transition-colors duration-[160ms]"
+              style={{
+                height: "40px",
+                background: "#233648",
+                border: "1px solid #46637F",
+                borderRadius: "12px",
+                padding: "8px 16px",
+                fontSize: "16px",
+                lineHeight: "24px",
+                color: "#F0F5FA",
+              }}
             />
             {emailError && (
-              <p id="email-error" className="mt-1 text-xs leading-[18px] text-mf-error transition-opacity duration-[120ms]">
+              <p id="email-error" className="mt-1 text-xs leading-[18px]" style={{ color: "hsl(0 94% 72%)" }}>
                 {emailError}
               </p>
             )}
@@ -112,7 +130,11 @@ const LoginPage = () => {
 
           {/* Password */}
           <div className="mt-4">
-            <label htmlFor="password" className="block text-[13px] leading-5 font-medium text-mf-text-secondary mb-2">
+            <label
+              htmlFor="password"
+              className="block text-[14px] leading-[22px] mb-2"
+              style={{ color: "rgba(255, 255, 255, 0.7)" }}
+            >
               Password
             </label>
             <div className="relative">
@@ -126,39 +148,62 @@ const LoginPage = () => {
                 aria-invalid={!!passwordError}
                 aria-describedby={passwordError ? "password-error" : "password-helper"}
                 autoComplete="current-password"
-                className="w-full h-12 rounded-control bg-mf-input border border-mf-border px-4 pr-12 text-[15px] leading-[22px] text-mf-text outline-none transition-colors duration-[160ms] ease-out hover:border-mf-border-hover focus:border-mf-border-focus focus:ring-2 focus:ring-mf-action/20"
+                className="w-full outline-none transition-colors duration-[160ms]"
+                style={{
+                  height: "40px",
+                  background: "#233648",
+                  border: "1px solid #46637F",
+                  borderRadius: "12px",
+                  padding: "8px 16px",
+                  paddingRight: "48px",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  color: "#F0F5FA",
+                }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-mf-text-tertiary hover:text-mf-text-secondary transition-colors duration-[160ms]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 transition-colors duration-[160ms]"
+                style={{ color: "rgba(255, 255, 255, 0.7)" }}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
             </div>
 
-            {/* Password helper row: error left, forgot right */}
-            <div id="password-helper" className="flex items-center justify-between mt-2 h-5">
-              <span className="text-xs leading-[18px] text-mf-error transition-opacity duration-[120ms]">
+            {/* Forgot password */}
+            <div id="password-helper" className="flex items-center justify-between mt-2">
+              <span className="text-xs leading-[18px]" style={{ color: "hsl(0 94% 72%)" }}>
                 {passwordError || ""}
               </span>
               <a
                 href="#"
                 id="password-error"
-                className="text-[13px] leading-5 font-medium text-mf-link hover:brightness-110 hover:underline transition-all duration-[160ms] whitespace-nowrap"
+                className="text-[14px] leading-[22px] hover:underline transition-all duration-[160ms] whitespace-nowrap"
+                style={{ color: "#71F0F6" }}
               >
                 Forgot password?
               </a>
             </div>
           </div>
 
-          {/* Log in button */}
+          {/* Login button */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-4 w-full h-12 rounded-control bg-mf-action text-[15px] leading-[22px] font-semibold text-primary-foreground transition-all duration-[160ms] ease-out hover:bg-mf-action-hover active:bg-mf-action-active active:translate-y-px disabled:opacity-[0.38] disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            style={{ boxShadow: "0 8px 20px rgba(113,240,246,0.22)" }}
+            className="mt-4 w-full flex items-center justify-center gap-2 transition-all duration-[160ms] ease-out hover:brightness-110 active:translate-y-px disabled:opacity-[0.38] disabled:cursor-not-allowed"
+            style={{
+              height: "40px",
+              background: "#71F0F6",
+              boxShadow: "0px 0px 24px rgba(113, 240, 246, 0.22)",
+              borderRadius: "12px",
+              fontSize: "16px",
+              lineHeight: "24px",
+              fontWeight: 700,
+              color: "#091729",
+              border: "none",
+            }}
           >
             {isSubmitting && <Loader2 size={16} className="animate-spin" />}
             {isSubmitting ? "Logging in..." : "Log in"}
@@ -168,15 +213,26 @@ const LoginPage = () => {
         {/* Divider */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
-          <span className="text-xs leading-[18px] text-mf-text-tertiary">or continue with</span>
+          <span className="text-[14px] leading-[22px]" style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+            or continue with
+          </span>
           <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
         </div>
 
         {/* Google button */}
         <button
           type="button"
-          className="w-full h-12 rounded-control border border-[rgba(255,255,255,0.14)] text-[15px] leading-[22px] font-medium text-mf-text flex items-center justify-center gap-3 transition-all duration-[160ms] ease-out hover:border-mf-border-hover hover:bg-[rgba(255,255,255,0.06)]"
-          style={{ background: "rgba(255,255,255,0.04)" }}
+          className="w-full flex items-center justify-center gap-2 transition-all duration-[160ms] ease-out hover:brightness-110"
+          style={{
+            height: "40px",
+            background: "rgba(255, 255, 255, 0.04)",
+            border: "1px solid rgba(255, 255, 255, 0.14)",
+            borderRadius: "12px",
+            fontSize: "16px",
+            lineHeight: "24px",
+            fontWeight: 700,
+            color: "#F0F5FA",
+          }}
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z" fill="#4285F4"/>
@@ -188,27 +244,27 @@ const LoginPage = () => {
         </button>
 
         {/* Sign up */}
-        <p className="mt-4 text-center text-sm leading-5 text-mf-text-secondary">
+        <p className="mt-4 text-center text-[16px] leading-[24px]" style={{ color: "#A9B4C2" }}>
           Don't have an account?{" "}
-          <a href="#" className="font-medium text-mf-link hover:underline hover:brightness-110 transition-all duration-[160ms]">
+          <a href="#" className="hover:underline transition-all duration-[160ms]" style={{ color: "#71F0F6" }}>
             Sign up
           </a>
         </p>
 
         {/* Terms */}
-        <p className="mt-3 text-center text-xs leading-[18px] text-mf-text-tertiary">
+        <p className="mt-2 text-center text-[14px] leading-[22px]" style={{ color: "rgba(255, 255, 255, 0.4)" }}>
           By continuing, you agree to our{" "}
-          <a href="#" className="hover:text-mf-text-secondary hover:underline transition-colors duration-[160ms]">Terms of Service</a>
+          <a href="#" className="hover:underline transition-colors duration-[160ms]" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Terms of Service</a>
           {" "}and{" "}
-          <a href="#" className="hover:text-mf-text-secondary hover:underline transition-colors duration-[160ms]">Privacy Policy</a>.
+          <a href="#" className="hover:underline transition-colors duration-[160ms]" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Privacy Policy</a>.
         </p>
       </div>
 
       {/* Footer */}
-      <div className="absolute bottom-4 w-full text-center text-xs leading-[18px] text-mf-text-tertiary z-10">
+      <div className="absolute bottom-4 w-full text-center text-xs leading-[18px] z-10" style={{ color: "rgba(255, 255, 255, 0.4)" }}>
         © 2026 MovieFlow. All rights reserved.{" "}
-        <a href="#" className="text-mf-link underline hover:brightness-110 ml-2">Contact Us</a>
-        <a href="#" className="text-mf-link underline hover:brightness-110 ml-2">Blog</a>
+        <a href="#" className="underline hover:brightness-110 ml-2" style={{ color: "#71F0F6" }}>Contact Us</a>
+        <a href="#" className="underline hover:brightness-110 ml-2" style={{ color: "#71F0F6" }}>Blog</a>
       </div>
     </div>
   );
