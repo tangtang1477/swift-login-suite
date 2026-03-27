@@ -227,7 +227,7 @@ const LoginPage = () => {
 
             {/* Forgot password row */}
             <div id="password-helper" className="flex items-center justify-between mt-2">
-              <span id="password-error" className="text-xs leading-[18px]" style={{ color: "hsl(0 94% 72%)" }}>
+              <span id="password-error" className="text-sm leading-[22px]" style={{ color: "hsl(0 94% 72%)" }}>
                 {passwordError || "\u00A0"}
               </span>
               <a
