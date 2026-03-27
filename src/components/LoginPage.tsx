@@ -57,10 +57,8 @@ const LoginPage = () => {
 
   return (
     <div
-      className="relative w-full overflow-hidden flex items-center justify-end"
+      className="relative w-full min-h-screen overflow-hidden flex items-center justify-end"
       style={{
-        width: "1920px",
-        height: "934px",
         background: "#000",
         fontFamily: "Arial, sans-serif",
       }}
@@ -82,8 +80,8 @@ const LoginPage = () => {
         className="relative z-10 flex flex-col"
         style={{
           width: "440px",
-          minHeight: "716px",
-          marginRight: "32px",
+          maxWidth: "92vw",
+          marginRight: "clamp(16px, 2vw, 32px)",
           background: "rgba(18, 28, 45, 0.72)",
           border: "1px solid rgba(255, 255, 255, 0.08)",
           backdropFilter: "blur(8px)",
@@ -189,7 +187,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); if (passwordError) setPasswordError(""); }}
                 onBlur={handlePasswordBlur}
-                placeholder=""
+                placeholder="8-18 characters (letters & numbers)"
                 aria-invalid={!!passwordError}
                 aria-describedby={passwordError ? "password-error" : "password-helper"}
                 autoComplete="current-password"
