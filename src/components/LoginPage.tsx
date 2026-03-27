@@ -164,7 +164,7 @@ const LoginPage = () => {
               }}
             />
             {emailError && (
-              <p id="email-error" className="mt-1 text-xs leading-[18px]" style={{ color: "hsl(0 94% 72%)" }}>
+              <p id="email-error" className="mt-1 text-sm leading-[22px]" style={{ color: "hsl(0 94% 72%)" }}>
                 {emailError}
               </p>
             )}
