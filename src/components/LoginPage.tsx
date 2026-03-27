@@ -22,6 +22,10 @@ const LoginPage = () => {
     setEmailError(validateEmail(email));
   };
 
+  const handlePasswordBlur = () => {
+    if (!password) setPasswordError("Enter your password");
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setServerError("");
@@ -33,19 +37,53 @@ const LoginPage = () => {
 
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1500));
-    setPasswordError("Incorrect password");
+    setServerError("Invalid email or password. Please try again.");
     setIsSubmitting(false);
+  };
+
+  const handleForgotPassword = (e: React.MouseEvent) => {
+    e.preventDefault();
+    alert("Password reset flow would open here.");
+  };
+
+  const handleGoogleLogin = () => {
+    alert("Google OAuth flow would start here.");
+  };
+
+  const handleSignUp = (e: React.MouseEvent) => {
+    e.preventDefault();
+    alert("Sign up page would open here.");
   };
 
   return (
     <div
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
-      style={{ background: "#000000", fontFamily: "Arial, sans-serif" }}
+      className="relative w-full overflow-hidden flex items-center justify-end"
+      style={{
+        width: "1920px",
+        height: "934px",
+        background: "#000",
+        fontFamily: "Arial, sans-serif",
+      }}
     >
-      {/* Card */}
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ zIndex: 0 }}
+      >
+        <source src="/landing_highresolution.mp4" type="video/mp4" />
+      </video>
+
+      {/* Login Card */}
       <div
-        className="relative z-10 w-[440px] max-w-[92vw] animate-card-enter"
+        className="relative z-10 flex flex-col"
         style={{
+          width: "440px",
+          minHeight: "716px",
+          marginRight: "32px",
           background: "rgba(18, 28, 45, 0.72)",
           border: "1px solid rgba(255, 255, 255, 0.08)",
           backdropFilter: "blur(8px)",
@@ -57,7 +95,7 @@ const LoginPage = () => {
         {/* Server error */}
         {serverError && (
           <div
-            className="mb-4 rounded-[12px] px-4 py-3 text-xs leading-[18px]"
+            className="mb-4 rounded-xl px-4 py-3 text-xs leading-[18px]"
             style={{ background: "rgba(248,113,113,0.10)", color: "hsl(0 94% 72%)" }}
           >
             {serverError}
@@ -66,11 +104,11 @@ const LoginPage = () => {
 
         {/* Logo */}
         <div className="flex justify-center mb-3">
-          <img src={movieflowLogo} alt="MovieFlow" className="w-9 h-9 object-contain" />
+          <img src={movieflowLogo} alt="MovieFlow" style={{ width: "36px", height: "36px", objectFit: "contain" }} />
         </div>
 
         {/* Title */}
-        <h1 className="text-center text-[28px] leading-[34px] font-bold" style={{ color: "#F0F5FA" }}>
+        <h1 className="text-center font-bold" style={{ fontSize: "28px", lineHeight: "34px", color: "#F0F5FA" }}>
           Welcome to{" "}
           <span
             style={{
@@ -85,7 +123,7 @@ const LoginPage = () => {
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-3 text-center text-[16px] leading-[24px]" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+        <p className="mt-3 text-center" style={{ fontSize: "16px", lineHeight: "24px", color: "rgba(255, 255, 255, 0.7)" }}>
           Your ideas are waiting. Log in to create.
         </p>
 
@@ -94,8 +132,8 @@ const LoginPage = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-[14px] leading-[22px] mb-2"
-              style={{ color: "rgba(255, 255, 255, 0.7)" }}
+              className="block mb-2"
+              style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.7)" }}
             >
               Email address
             </label>
@@ -109,16 +147,22 @@ const LoginPage = () => {
               aria-invalid={!!emailError}
               aria-describedby={emailError ? "email-error" : undefined}
               autoComplete="email"
-              className="w-full outline-none transition-colors duration-[160ms]"
+              className="w-full outline-none transition-colors duration-150"
               style={{
                 height: "40px",
                 background: "#233648",
-                border: "1px solid #46637F",
+                border: `1px solid ${emailError ? "hsl(0 94% 72%)" : "#46637F"}`,
                 borderRadius: "12px",
                 padding: "8px 16px",
                 fontSize: "16px",
                 lineHeight: "24px",
                 color: "#F0F5FA",
+              }}
+              onFocus={(e) => {
+                if (!emailError) e.currentTarget.style.borderColor = "#71F0F6";
+              }}
+              onBlurCapture={(e) => {
+                if (!emailError) e.currentTarget.style.borderColor = "#46637F";
               }}
             />
             {emailError && (
@@ -132,8 +176,8 @@ const LoginPage = () => {
           <div className="mt-4">
             <label
               htmlFor="password"
-              className="block text-[14px] leading-[22px] mb-2"
-              style={{ color: "rgba(255, 255, 255, 0.7)" }}
+              className="block mb-2"
+              style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.7)" }}
             >
               Password
             </label>
@@ -144,15 +188,16 @@ const LoginPage = () => {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); if (passwordError) setPasswordError(""); }}
+                onBlur={handlePasswordBlur}
                 placeholder=""
                 aria-invalid={!!passwordError}
                 aria-describedby={passwordError ? "password-error" : "password-helper"}
                 autoComplete="current-password"
-                className="w-full outline-none transition-colors duration-[160ms]"
+                className="w-full outline-none transition-colors duration-150"
                 style={{
                   height: "40px",
                   background: "#233648",
-                  border: "1px solid #46637F",
+                  border: `1px solid ${passwordError ? "hsl(0 94% 72%)" : "#46637F"}`,
                   borderRadius: "12px",
                   padding: "8px 16px",
                   paddingRight: "48px",
@@ -160,28 +205,38 @@ const LoginPage = () => {
                   lineHeight: "24px",
                   color: "#F0F5FA",
                 }}
+                onFocus={(e) => {
+                  if (!passwordError) e.currentTarget.style.borderColor = "#71F0F6";
+                }}
+                onBlurCapture={(e) => {
+                  if (!passwordError) e.currentTarget.style.borderColor = "#46637F";
+                }}
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 transition-colors duration-[160ms]"
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                  passwordRef.current?.focus();
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 transition-colors duration-150 hover:opacity-100"
                 style={{ color: "rgba(255, 255, 255, 0.7)" }}
                 aria-label={showPassword ? "Hide password" : "Show password"}
+                tabIndex={-1}
               >
                 {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
             </div>
 
-            {/* Forgot password */}
+            {/* Forgot password row */}
             <div id="password-helper" className="flex items-center justify-between mt-2">
-              <span className="text-xs leading-[18px]" style={{ color: "hsl(0 94% 72%)" }}>
-                {passwordError || ""}
+              <span id="password-error" className="text-xs leading-[18px]" style={{ color: "hsl(0 94% 72%)" }}>
+                {passwordError || "\u00A0"}
               </span>
               <a
                 href="#"
-                id="password-error"
-                className="text-[14px] leading-[22px] hover:underline transition-all duration-[160ms] whitespace-nowrap"
-                style={{ color: "#71F0F6" }}
+                onClick={handleForgotPassword}
+                className="text-sm leading-[22px] hover:underline transition-all duration-150 whitespace-nowrap"
+                style={{ color: "#71F0F6", fontSize: "14px" }}
               >
                 Forgot password?
               </a>
@@ -192,7 +247,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-4 w-full flex items-center justify-center gap-2 transition-all duration-[160ms] ease-out hover:brightness-110 active:translate-y-px disabled:opacity-[0.38] disabled:cursor-not-allowed"
+            className="mt-4 w-full flex items-center justify-center gap-2 transition-all duration-150 ease-out hover:brightness-110 active:translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
               height: "40px",
               background: "#71F0F6",
@@ -203,6 +258,7 @@ const LoginPage = () => {
               fontWeight: 700,
               color: "#091729",
               border: "none",
+              cursor: isSubmitting ? "not-allowed" : "pointer",
             }}
           >
             {isSubmitting && <Loader2 size={16} className="animate-spin" />}
@@ -213,7 +269,7 @@ const LoginPage = () => {
         {/* Divider */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
-          <span className="text-[14px] leading-[22px]" style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+          <span style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.5)" }}>
             or continue with
           </span>
           <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
@@ -222,7 +278,8 @@ const LoginPage = () => {
         {/* Google button */}
         <button
           type="button"
-          className="w-full flex items-center justify-center gap-2 transition-all duration-[160ms] ease-out hover:brightness-110"
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center gap-2 transition-all duration-150 ease-out hover:brightness-110 hover:border-white/30"
           style={{
             height: "40px",
             background: "rgba(255, 255, 255, 0.04)",
@@ -232,6 +289,7 @@ const LoginPage = () => {
             lineHeight: "24px",
             fontWeight: 700,
             color: "#F0F5FA",
+            cursor: "pointer",
           }}
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -244,24 +302,32 @@ const LoginPage = () => {
         </button>
 
         {/* Sign up */}
-        <p className="mt-4 text-center text-[16px] leading-[24px]" style={{ color: "#A9B4C2" }}>
+        <p className="mt-4 text-center" style={{ fontSize: "16px", lineHeight: "24px", color: "#A9B4C2" }}>
           Don't have an account?{" "}
-          <a href="#" className="hover:underline transition-all duration-[160ms]" style={{ color: "#71F0F6" }}>
+          <a
+            href="#"
+            onClick={handleSignUp}
+            className="hover:underline transition-all duration-150"
+            style={{ color: "#71F0F6" }}
+          >
             Sign up
           </a>
         </p>
 
         {/* Terms */}
-        <p className="mt-2 text-center text-[14px] leading-[22px]" style={{ color: "rgba(255, 255, 255, 0.4)" }}>
+        <p className="mt-2 text-center" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.4)" }}>
           By continuing, you agree to our{" "}
-          <a href="#" className="hover:underline transition-colors duration-[160ms]" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Terms of Service</a>
+          <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Terms of Service</a>
           {" "}and{" "}
-          <a href="#" className="hover:underline transition-colors duration-[160ms]" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Privacy Policy</a>.
+          <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Privacy Policy</a>.
         </p>
       </div>
 
       {/* Footer */}
-      <div className="absolute bottom-4 w-full text-center text-xs leading-[18px] z-10" style={{ color: "rgba(255, 255, 255, 0.4)" }}>
+      <div
+        className="absolute bottom-4 w-full text-center text-xs leading-[18px] z-10"
+        style={{ color: "rgba(255, 255, 255, 0.4)" }}
+      >
         © 2026 MovieFlow. All rights reserved.{" "}
         <a href="#" className="underline hover:brightness-110 ml-2" style={{ color: "#71F0F6" }}>Contact Us</a>
         <a href="#" className="underline hover:brightness-110 ml-2" style={{ color: "#71F0F6" }}>Blog</a>
