@@ -57,10 +57,8 @@ const LoginPage = () => {
 
   return (
     <div
-      className="relative w-full overflow-hidden flex items-center justify-end"
+      className="relative w-full min-h-screen overflow-hidden flex items-center justify-end"
       style={{
-        width: "1920px",
-        height: "934px",
         background: "#000",
         fontFamily: "Arial, sans-serif",
       }}
