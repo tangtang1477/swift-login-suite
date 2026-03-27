@@ -189,7 +189,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); if (passwordError) setPasswordError(""); }}
                 onBlur={handlePasswordBlur}
-                placeholder=""
+                placeholder="8-18 characters (letters & numbers)"
                 aria-invalid={!!passwordError}
                 aria-describedby={passwordError ? "password-error" : "password-helper"}
                 autoComplete="current-password"
