@@ -277,17 +277,26 @@ const LoginPage = () => {
             </p>
 
             <form onSubmit={handleVerifySubmit} className="mt-6" noValidate>
-              <input
-                type="text"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                placeholder="Verification code"
-                autoComplete="one-time-code"
-                className="w-full outline-none transition-colors duration-150"
-                style={inputStyle(false)}
-                onFocus={(e) => handleInputFocus(e, false)}
-                onBlurCapture={(e) => handleInputBlurStyle(e, false)}
-              />
+              <div>
+                <input
+                  type="text"
+                  value={verificationCode}
+                  onChange={(e) => { setVerificationCode(e.target.value); if (codeError) setCodeError(""); }}
+                  placeholder="Verification code"
+                  autoComplete="one-time-code"
+                  aria-invalid={!!codeError}
+                  aria-describedby={codeError ? "code-error" : undefined}
+                  className="w-full outline-none transition-colors duration-150"
+                  style={inputStyle(!!codeError)}
+                  onFocus={(e) => handleInputFocus(e, !!codeError)}
+                  onBlurCapture={(e) => handleInputBlurStyle(e, !!codeError)}
+                />
+                {codeError && (
+                  <p id="code-error" className="mt-1 text-sm leading-[22px]" style={{ color: "hsl(0 94% 72%)" }}>
+                    {codeError}
+                  </p>
+                )}
+              </div>
 
               <button
                 type="submit"
