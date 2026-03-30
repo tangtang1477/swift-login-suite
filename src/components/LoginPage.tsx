@@ -91,6 +91,7 @@ const LoginPage = () => {
     // Simulate: code "000000" is valid, anything else is invalid
     if (verificationCode === "000000") {
       setServerError("");
+      setResendSuccess("");
       setVerifySuccess("Verification successful!");
     } else {
       setServerError("Invalid verification code. Please try again.");
