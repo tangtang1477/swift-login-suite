@@ -104,6 +104,7 @@ const LoginPage = () => {
     e.preventDefault();
     setResendSuccess("");
     setServerError("");
+    setVerifySuccess("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1000));
     setResendSuccess("Verification email sent successfully.");
