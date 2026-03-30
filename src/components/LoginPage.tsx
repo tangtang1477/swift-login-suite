@@ -70,7 +70,11 @@ const LoginPage = () => {
 
   const handleVerifySubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!verificationCode) return;
+    if (!verificationCode) {
+      setCodeError("Enter the verification code");
+      return;
+    }
+    setCodeError("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1500));
     setServerError("Invalid verification code. Please try again.");
