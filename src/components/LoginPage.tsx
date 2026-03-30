@@ -758,14 +758,12 @@ const LoginPage = () => {
             )}
 
             {/* Terms */}
-            {step !== "verify-code" && (
-              <p className="mt-2 text-center" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.4)" }}>
-                By continuing, you agree to our{" "}
-                <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Terms of Service</a>
-                {" "}and{" "}
-                <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Privacy Policy</a>.
-              </p>
-            )}
+            <p className="mt-2 text-center" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.4)" }}>
+              By continuing, you agree to our{" "}
+              <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Terms of Service</a>
+              {" "}and{" "}
+              <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Privacy Policy</a>.
+            </p>
           </>
         )}
       </div>
