@@ -306,6 +306,16 @@ const LoginPage = () => {
                 </div>
               )}
 
+              {/* Verify success */}
+              {verifySuccess && (
+                <div
+                  className="mb-4 rounded-xl px-4 py-3 text-sm leading-[22px]"
+                  style={{ background: "rgba(74,222,128,0.10)", color: "#4ade80" }}
+                >
+                  {verifySuccess}
+                </div>
+              )}
+
               {/* Resend success */}
               {resendSuccess && (
                 <div
