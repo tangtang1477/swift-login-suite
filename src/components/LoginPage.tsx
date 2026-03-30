@@ -78,10 +78,14 @@ const LoginPage = () => {
     e.preventDefault();
     if (!verificationCode) {
       setCodeError("Enter the verification code");
+      setServerError("");
+      setResendSuccess("");
+      setVerifySuccess("");
       return;
     }
     setCodeError("");
     setResendSuccess("");
+    setVerifySuccess("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1500));
     // Simulate: code "000000" is valid, anything else is invalid
