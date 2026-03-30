@@ -18,6 +18,7 @@ const LoginPage = () => {
   const [codeError, setCodeError] = useState("");
   const [serverError, setServerError] = useState("");
   const [resendSuccess, setResendSuccess] = useState("");
+  const [verifySuccess, setVerifySuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInlinePassword, setShowInlinePassword] = useState(false);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -86,7 +87,7 @@ const LoginPage = () => {
     // Simulate: code "000000" is valid, anything else is invalid
     if (verificationCode === "000000") {
       setServerError("");
-      alert("Verification successful! Redirecting...");
+      setVerifySuccess("Verification successful! Redirecting...");
     } else {
       setServerError("Invalid verification code. Please try again.");
     }
@@ -302,6 +303,16 @@ const LoginPage = () => {
                   style={{ background: "rgba(248,113,113,0.10)", color: "hsl(0 94% 72%)" }}
                 >
                   {serverError}
+                </div>
+              )}
+
+              {/* Verify success */}
+              {verifySuccess && (
+                <div
+                  className="mb-4 rounded-xl px-4 py-3 text-sm leading-[22px]"
+                  style={{ background: "rgba(74,222,128,0.10)", color: "#4ade80" }}
+                >
+                  {verifySuccess}
                 </div>
               )}
 
