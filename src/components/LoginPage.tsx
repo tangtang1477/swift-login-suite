@@ -173,7 +173,86 @@ const LoginPage = () => {
 
   const handleForgotPassword = (e: React.MouseEvent) => {
     e.preventDefault();
-    alert("Password reset flow would open here.");
+    setStep("reset-password");
+    setResetCode("");
+    setResetCodeSent(false);
+    setResetCodeError("");
+    setNewPassword("");
+    setConfirmNewPassword("");
+    setNewPasswordError("");
+    setConfirmNewPasswordError("");
+    setResetSuccess("");
+    setServerError("");
+    setShowNewPassword(false);
+    setShowConfirmNewPassword(false);
+  };
+
+  const handleSendResetCode = async () => {
+    setServerError("");
+    setResetSuccess("");
+    setResetCodeError("");
+    setResetSendingCode(true);
+    await new Promise((r) => setTimeout(r, 1000));
+    setResetCodeSent(true);
+    setResetSendingCode(false);
+    setResetSuccess("Verification code sent to your email.");
+    setTimeout(() => setResetSuccess(""), 4000);
+  };
+
+  const handleResetPassword = async (e: FormEvent) => {
+    e.preventDefault();
+    setServerError("");
+    setResetSuccess("");
+
+    // Validate reset code
+    if (!resetCode) {
+      setResetCodeError("Enter the verification code");
+      setNewPasswordError("");
+      setConfirmNewPasswordError("");
+      return;
+    }
+    setResetCodeError("");
+
+    // Validate new password
+    const npErr = !newPassword
+      ? "Enter your new password"
+      : newPassword.length < 8
+        ? "Password must be at least 8 characters"
+        : !/[a-zA-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)
+          ? "Password must contain both letters and numbers"
+          : "";
+    setNewPasswordError(npErr);
+    if (npErr) {
+      setConfirmNewPasswordError("");
+      return;
+    }
+
+    // Validate confirm password
+    const cpErr = !confirmNewPassword
+      ? "Confirm your new password"
+      : confirmNewPassword !== newPassword
+        ? "Passwords do not match"
+        : "";
+    setConfirmNewPasswordError(cpErr);
+    if (cpErr) return;
+
+    // Simulate reset: code "000000" is valid
+    setIsSubmitting(true);
+    await new Promise((r) => setTimeout(r, 1500));
+    if (resetCode === "000000") {
+      setServerError("");
+      setResetSuccess("Password reset successful!");
+      setTimeout(() => {
+        setStep("email-login");
+        setPassword("");
+        setPasswordError("");
+        setResetSuccess("");
+      }, 2000);
+    } else {
+      setResetSuccess("");
+      setServerError("Invalid verification code. Please try again.");
+    }
+    setIsSubmitting(false);
   };
 
   const handleGoogleLogin = () => {
