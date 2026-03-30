@@ -86,9 +86,14 @@ const LoginPage = () => {
     setIsSubmitting(false);
   };
 
-  const handleResendEmail = (e: React.MouseEvent) => {
+  const handleResendEmail = async (e: React.MouseEvent) => {
     e.preventDefault();
-    alert("Verification email resent.");
+    setResendSuccess("");
+    setIsSubmitting(true);
+    await new Promise((r) => setTimeout(r, 1000));
+    setResendSuccess("Verification email sent successfully.");
+    setIsSubmitting(false);
+    setTimeout(() => setResendSuccess(""), 4000);
   };
 
   const handleContinueWithPassword = (e: React.MouseEvent) => {
