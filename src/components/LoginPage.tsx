@@ -21,6 +21,20 @@ const LoginPage = () => {
   const [verifySuccess, setVerifySuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInlinePassword, setShowInlinePassword] = useState(false);
+  // Reset password states
+  const [resetCode, setResetCode] = useState("");
+  const [resetCodeSent, setResetCodeSent] = useState(false);
+  const [resetCodeError, setResetCodeError] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmNewPasswordError, setConfirmNewPasswordError] = useState("");
+  const [resetSuccess, setResetSuccess] = useState("");
+  const [resetSendingCode, setResetSendingCode] = useState(false);
+  const newPasswordRef = useRef<HTMLInputElement>(null);
+  const confirmNewPasswordRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const inlinePasswordRef = useRef<HTMLInputElement>(null);
