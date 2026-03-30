@@ -56,11 +56,15 @@ const LoginPage = () => {
     setServerError("");
     const eErr = validateEmail(email);
     setEmailError(eErr);
-    if (eErr) return;
 
     const pErr = password ? "" : "Enter your password";
+    if (!showInlinePassword) {
+      // password not visible yet, only validate email
+      if (eErr) return;
+      return;
+    }
     setPasswordError(pErr);
-    if (pErr) return;
+    if (eErr || pErr) return;
 
     // Simulate sending verification code
     setIsSubmitting(true);
