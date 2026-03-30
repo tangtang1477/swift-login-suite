@@ -83,7 +83,7 @@ const LoginPage = () => {
       if (password === REGISTERED_PASSWORD) {
         window.location.href = "https://movieflow.ai";
       } else {
-        setServerError("Password error");
+        setPasswordError("Password error");
       }
     } else {
       // Signup flow - go to verify code
