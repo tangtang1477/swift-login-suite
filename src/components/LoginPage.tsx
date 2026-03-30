@@ -264,8 +264,8 @@ const LoginPage = () => {
           padding: "64px 32px 32px",
         }}
       >
-        {/* Server error */}
-        {serverError && (
+        {/* Server error - show for non-verify steps */}
+        {serverError && step !== "verify-code" && (
           <div
             className="mb-4 rounded-xl px-4 py-3 text-xs leading-[18px]"
             style={{ background: "rgba(248,113,113,0.10)", color: "hsl(0 94% 72%)" }}
@@ -287,6 +287,26 @@ const LoginPage = () => {
             </p>
 
             <form onSubmit={handleVerifySubmit} className="mt-6" noValidate>
+              {/* Server error above input with 16px gap */}
+              {serverError && (
+                <div
+                  className="mb-4 rounded-xl px-4 py-3 text-sm leading-[22px]"
+                  style={{ background: "rgba(248,113,113,0.10)", color: "hsl(0 94% 72%)" }}
+                >
+                  {serverError}
+                </div>
+              )}
+
+              {/* Resend success */}
+              {resendSuccess && (
+                <div
+                  className="mb-4 rounded-xl px-4 py-3 text-sm leading-[22px]"
+                  style={{ background: "rgba(113,240,246,0.10)", color: "#71F0F6" }}
+                >
+                  {resendSuccess}
+                </div>
+              )}
+
               <div>
                 <input
                   type="text"
