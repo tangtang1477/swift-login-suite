@@ -58,7 +58,7 @@ const LoginPage = () => {
     const eErr = validateEmail(email);
     setEmailError(eErr);
 
-    const pErr = password ? "" : "Enter your password";
+    const pErr = !password ? "Enter your password" : password.length < 8 ? "Password must be at least 8 characters" : "";
     if (!showInlinePassword) {
       // password not visible yet, only validate email
       if (eErr) return;
@@ -87,7 +87,7 @@ const LoginPage = () => {
     // Simulate: code "000000" is valid, anything else is invalid
     if (verificationCode === "000000") {
       setServerError("");
-      setVerifySuccess("Verification successful! Redirecting...");
+      setVerifySuccess("Verification successful!");
     } else {
       setServerError("Invalid verification code. Please try again.");
     }
