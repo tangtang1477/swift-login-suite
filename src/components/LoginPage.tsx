@@ -96,6 +96,7 @@ const LoginPage = () => {
   const handleResendEmail = async (e: React.MouseEvent) => {
     e.preventDefault();
     setResendSuccess("");
+    setServerError("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1000));
     setResendSuccess("Verification email sent successfully.");
