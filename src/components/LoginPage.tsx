@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, FormEvent } from "react";
 import { Eye, EyeOff, Loader2, Phone } from "lucide-react";
 import movieflowLogo from "@/assets/movieflow-logo.png";
 
-type Step = "initial" | "email-login" | "email-signup" | "verify-code";
+type Step = "initial" | "email-login" | "email-signup" | "verify-code" | "reset-password";
 
 const LoginPage = () => {
   const [step, setStep] = useState<Step>("initial");
@@ -21,6 +21,20 @@ const LoginPage = () => {
   const [verifySuccess, setVerifySuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInlinePassword, setShowInlinePassword] = useState(false);
+  // Reset password states
+  const [resetCode, setResetCode] = useState("");
+  const [resetCodeSent, setResetCodeSent] = useState(false);
+  const [resetCodeError, setResetCodeError] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmNewPasswordError, setConfirmNewPasswordError] = useState("");
+  const [resetSuccess, setResetSuccess] = useState("");
+  const [resetSendingCode, setResetSendingCode] = useState(false);
+  const newPasswordRef = useRef<HTMLInputElement>(null);
+  const confirmNewPasswordRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const inlinePasswordRef = useRef<HTMLInputElement>(null);
@@ -159,7 +173,86 @@ const LoginPage = () => {
 
   const handleForgotPassword = (e: React.MouseEvent) => {
     e.preventDefault();
-    alert("Password reset flow would open here.");
+    setStep("reset-password");
+    setResetCode("");
+    setResetCodeSent(false);
+    setResetCodeError("");
+    setNewPassword("");
+    setConfirmNewPassword("");
+    setNewPasswordError("");
+    setConfirmNewPasswordError("");
+    setResetSuccess("");
+    setServerError("");
+    setShowNewPassword(false);
+    setShowConfirmNewPassword(false);
+  };
+
+  const handleSendResetCode = async () => {
+    setServerError("");
+    setResetSuccess("");
+    setResetCodeError("");
+    setResetSendingCode(true);
+    await new Promise((r) => setTimeout(r, 1000));
+    setResetCodeSent(true);
+    setResetSendingCode(false);
+    setResetSuccess("Verification code sent to your email.");
+    setTimeout(() => setResetSuccess(""), 4000);
+  };
+
+  const handleResetPassword = async (e: FormEvent) => {
+    e.preventDefault();
+    setServerError("");
+    setResetSuccess("");
+
+    // Validate reset code
+    if (!resetCode) {
+      setResetCodeError("Enter the verification code");
+      setNewPasswordError("");
+      setConfirmNewPasswordError("");
+      return;
+    }
+    setResetCodeError("");
+
+    // Validate new password
+    const npErr = !newPassword
+      ? "Enter your new password"
+      : newPassword.length < 8
+        ? "Password must be at least 8 characters"
+        : !/[a-zA-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)
+          ? "Password must contain both letters and numbers"
+          : "";
+    setNewPasswordError(npErr);
+    if (npErr) {
+      setConfirmNewPasswordError("");
+      return;
+    }
+
+    // Validate confirm password
+    const cpErr = !confirmNewPassword
+      ? "Confirm your new password"
+      : confirmNewPassword !== newPassword
+        ? "Passwords do not match"
+        : "";
+    setConfirmNewPasswordError(cpErr);
+    if (cpErr) return;
+
+    // Simulate reset: code "000000" is valid
+    setIsSubmitting(true);
+    await new Promise((r) => setTimeout(r, 1500));
+    if (resetCode === "000000") {
+      setServerError("");
+      setResetSuccess("Password reset successful!");
+      setTimeout(() => {
+        setStep("email-login");
+        setPassword("");
+        setPasswordError("");
+        setResetSuccess("");
+      }, 2000);
+    } else {
+      setResetSuccess("");
+      setServerError("Invalid verification code. Please try again.");
+    }
+    setIsSubmitting(false);
   };
 
   const handleGoogleLogin = () => {
@@ -286,8 +379,8 @@ const LoginPage = () => {
           padding: "64px 32px 32px",
         }}
       >
-        {/* Server error - show for non-verify steps */}
-        {serverError && step !== "verify-code" && (
+        {/* Server error - show for non-verify, non-reset steps */}
+        {serverError && step !== "verify-code" && step !== "reset-password" && (
           <div
             className="mb-4 rounded-xl px-4 py-3 text-xs leading-[18px]"
             style={{ background: "rgba(248,113,113,0.10)", color: "hsl(0 94% 72%)" }}
@@ -296,8 +389,202 @@ const LoginPage = () => {
           </div>
         )}
 
-        {/* ===== VERIFY CODE STEP ===== */}
-        {step === "verify-code" ? (
+        {/* ===== RESET PASSWORD STEP ===== */}
+        {step === "reset-password" ? (
+          <>
+            {/* Title - no logo, like verify-code */}
+            <h1 className="text-center font-bold" style={{ fontSize: "28px", lineHeight: "34px", color: "#F0F5FA" }}>
+              Account Management
+            </h1>
+
+            <button
+              type="button"
+              onClick={() => { setStep("email-login"); setServerError(""); setResetSuccess(""); }}
+              className="absolute top-6 right-6 p-1 transition-colors duration-150 hover:opacity-80"
+              style={{ color: "rgba(255, 255, 255, 0.6)" }}
+              aria-label="Close"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="4" y1="4" x2="16" y2="16" /><line x1="16" y1="4" x2="4" y2="16" />
+              </svg>
+            </button>
+
+            <form onSubmit={handleResetPassword} className="mt-6" noValidate>
+              {/* Status messages - mutually exclusive */}
+              {serverError && (
+                <div
+                  className="mb-4 rounded-xl px-4 py-3 text-sm leading-[22px]"
+                  style={{ background: "rgba(248,113,113,0.10)", color: "hsl(0 94% 72%)" }}
+                >
+                  {serverError}
+                </div>
+              )}
+              {resetSuccess && (
+                <div
+                  className="mb-4 rounded-xl px-4 py-3 text-sm leading-[22px]"
+                  style={{ background: "rgba(74,222,128,0.10)", color: "#4ade80" }}
+                >
+                  {resetSuccess}
+                </div>
+              )}
+
+              {/* Email + Send Code */}
+              <div>
+                <label className="block mb-2" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.7)" }}>
+                  Email
+                </label>
+                <div className="flex gap-2">
+                  <div
+                    className="flex-1 flex items-center"
+                    style={{ ...inputStyle(false), cursor: "default" }}
+                  >
+                    <span style={{ color: "#F0F5FA", fontSize: "16px" }}>{email}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSendResetCode}
+                    disabled={resetSendingCode}
+                    className="flex items-center justify-center transition-all duration-150 ease-out hover:brightness-110 active:translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
+                    style={{
+                      height: "40px",
+                      padding: "0 20px",
+                      background: "#71F0F6",
+                      borderRadius: "12px",
+                      fontSize: "14px",
+                      lineHeight: "22px",
+                      fontWeight: 700,
+                      color: "#091729",
+                      border: "none",
+                      cursor: resetSendingCode ? "not-allowed" : "pointer",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {resetSendingCode ? <Loader2 size={16} className="animate-spin" /> : "Send Code"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Verification Code */}
+              <div className="mt-4">
+                <label className="block mb-2" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.7)" }}>
+                  Verification Code
+                </label>
+                <input
+                  type="text"
+                  value={resetCode}
+                  onChange={(e) => { setResetCode(e.target.value); if (resetCodeError) setResetCodeError(""); }}
+                  placeholder="Enter 6-digit code"
+                  className="w-full outline-none transition-colors duration-150"
+                  style={inputStyle(!!resetCodeError)}
+                  onFocus={(e) => handleInputFocus(e, !!resetCodeError)}
+                  onBlurCapture={(e) => handleInputBlurStyle(e, !!resetCodeError)}
+                />
+                {resetCodeError && (
+                  <p className="mt-1 text-sm leading-[22px]" style={{ color: "hsl(0 94% 72%)" }}>
+                    {resetCodeError}
+                  </p>
+                )}
+              </div>
+
+              {/* New Password */}
+              <div className="mt-4">
+                <label className="block mb-2" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.7)" }}>
+                  New Password
+                </label>
+                <div className="relative">
+                  <input
+                    ref={newPasswordRef}
+                    type={showNewPassword ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => { setNewPassword(e.target.value); if (newPasswordError) setNewPasswordError(""); }}
+                    placeholder="Enter new password(8-18 characters, letters & numbers)"
+                    className="w-full outline-none transition-colors duration-150"
+                    style={{ ...inputStyle(!!newPasswordError), paddingRight: "48px" }}
+                    onFocus={(e) => handleInputFocus(e, !!newPasswordError)}
+                    onBlurCapture={(e) => handleInputBlurStyle(e, !!newPasswordError)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => { setShowNewPassword(!showNewPassword); newPasswordRef.current?.focus(); }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 transition-colors duration-150 hover:opacity-100"
+                    style={{ color: "rgba(255, 255, 255, 0.7)" }}
+                    tabIndex={-1}
+                  >
+                    {showNewPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                  </button>
+                </div>
+                {newPasswordError && (
+                  <p className="mt-1 text-sm leading-[22px]" style={{ color: "hsl(0 94% 72%)" }}>
+                    {newPasswordError}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm New Password */}
+              <div className="mt-4">
+                <label className="block mb-2" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.7)" }}>
+                  Confirm New Password
+                </label>
+                <div className="relative">
+                  <input
+                    ref={confirmNewPasswordRef}
+                    type={showConfirmNewPassword ? "text" : "password"}
+                    value={confirmNewPassword}
+                    onChange={(e) => { setConfirmNewPassword(e.target.value); if (confirmNewPasswordError) setConfirmNewPasswordError(""); }}
+                    placeholder="Confirm new password"
+                    className="w-full outline-none transition-colors duration-150"
+                    style={{ ...inputStyle(!!confirmNewPasswordError), paddingRight: "48px" }}
+                    onFocus={(e) => handleInputFocus(e, !!confirmNewPasswordError)}
+                    onBlurCapture={(e) => handleInputBlurStyle(e, !!confirmNewPasswordError)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => { setShowConfirmNewPassword(!showConfirmNewPassword); confirmNewPasswordRef.current?.focus(); }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 transition-colors duration-150 hover:opacity-100"
+                    style={{ color: "rgba(255, 255, 255, 0.7)" }}
+                    tabIndex={-1}
+                  >
+                    {showConfirmNewPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                  </button>
+                </div>
+                {confirmNewPasswordError && (
+                  <p className="mt-1 text-sm leading-[22px]" style={{ color: "hsl(0 94% 72%)" }}>
+                    {confirmNewPasswordError}
+                  </p>
+                )}
+              </div>
+
+              {/* Reset Password button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="mt-6 w-full flex items-center justify-center gap-2 transition-all duration-150 ease-out hover:brightness-110 active:translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{
+                  height: "40px",
+                  background: "#71F0F6",
+                  boxShadow: "0px 0px 24px rgba(113, 240, 246, 0.22)",
+                  borderRadius: "12px",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  fontWeight: 700,
+                  color: "#091729",
+                  border: "none",
+                  cursor: isSubmitting ? "not-allowed" : "pointer",
+                }}
+              >
+                {isSubmitting && <Loader2 size={16} className="animate-spin" />}
+                {isSubmitting ? "Resetting..." : "Reset Password"}
+              </button>
+            </form>
+
+            {/* Terms */}
+            <p className="mt-4 text-center" style={{ fontSize: "14px", lineHeight: "22px", color: "rgba(255, 255, 255, 0.4)" }}>
+              <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Terms of Service</a>
+              {"  |  "}
+              <a href="#" className="hover:underline transition-colors duration-150" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Privacy Policy</a>
+            </p>
+          </>
+        ) : step === "verify-code" ? (
           <>
             {/* Title - no logo */}
             <h1 className="text-center font-bold" style={{ fontSize: "28px", lineHeight: "34px", color: "#F0F5FA" }}>
