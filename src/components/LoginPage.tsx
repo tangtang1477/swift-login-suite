@@ -376,15 +376,26 @@ const LoginPage = () => {
               </button>
             </form>
 
-            {/* Resend */}
-            <a
-              href="#"
-              onClick={handleResendEmail}
-              className="mt-4 block text-center hover:underline transition-all duration-150"
-              style={{ fontSize: "16px", lineHeight: "24px", color: "rgba(255, 255, 255, 0.7)" }}
-            >
-              Resend email
-            </a>
+            {/* Open mailbox & Resend */}
+            <div className="mt-4 flex items-center justify-center gap-6">
+              <a
+                href={`https://${email.split("@")[1] || ""}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline transition-all duration-150"
+                style={{ fontSize: "16px", lineHeight: "24px", color: "rgba(255, 255, 255, 0.7)" }}
+              >
+                Open {email.split("@")[1] || "mailbox"}
+              </a>
+              <a
+                href="#"
+                onClick={handleResendEmail}
+                className="hover:underline transition-all duration-150"
+                style={{ fontSize: "16px", lineHeight: "24px", color: "rgba(255, 255, 255, 0.7)" }}
+              >
+                Resend email
+              </a>
+            </div>
 
             {/* Divider */}
             <div className="flex items-center gap-3 my-5">
