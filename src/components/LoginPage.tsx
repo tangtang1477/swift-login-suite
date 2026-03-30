@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [codeError, setCodeError] = useState("");
   const [serverError, setServerError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInlinePassword, setShowInlinePassword] = useState(false);
@@ -69,7 +70,11 @@ const LoginPage = () => {
 
   const handleVerifySubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!verificationCode) return;
+    if (!verificationCode) {
+      setCodeError("Enter the verification code");
+      return;
+    }
+    setCodeError("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1500));
     setServerError("Invalid verification code. Please try again.");
@@ -272,17 +277,26 @@ const LoginPage = () => {
             </p>
 
             <form onSubmit={handleVerifySubmit} className="mt-6" noValidate>
-              <input
-                type="text"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                placeholder="Verification code"
-                autoComplete="one-time-code"
-                className="w-full outline-none transition-colors duration-150"
-                style={inputStyle(false)}
-                onFocus={(e) => handleInputFocus(e, false)}
-                onBlurCapture={(e) => handleInputBlurStyle(e, false)}
-              />
+              <div>
+                <input
+                  type="text"
+                  value={verificationCode}
+                  onChange={(e) => { setVerificationCode(e.target.value); if (codeError) setCodeError(""); }}
+                  placeholder="Verification code"
+                  autoComplete="one-time-code"
+                  aria-invalid={!!codeError}
+                  aria-describedby={codeError ? "code-error" : undefined}
+                  className="w-full outline-none transition-colors duration-150"
+                  style={inputStyle(!!codeError)}
+                  onFocus={(e) => handleInputFocus(e, !!codeError)}
+                  onBlurCapture={(e) => handleInputBlurStyle(e, !!codeError)}
+                />
+                {codeError && (
+                  <p id="code-error" className="mt-1 text-sm leading-[22px]" style={{ color: "hsl(0 94% 72%)" }}>
+                    {codeError}
+                  </p>
+                )}
+              </div>
 
               <button
                 type="submit"
