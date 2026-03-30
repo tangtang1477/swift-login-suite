@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, FormEvent } from "react";
 import { Eye, EyeOff, Loader2, Phone } from "lucide-react";
 import movieflowLogo from "@/assets/movieflow-logo.png";
 
-type Step = "initial" | "email-login" | "email-signup" | "verify-code";
+type Step = "initial" | "email-login" | "email-signup" | "verify-code" | "reset-password";
 
 const LoginPage = () => {
   const [step, setStep] = useState<Step>("initial");
