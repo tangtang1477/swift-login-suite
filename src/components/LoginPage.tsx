@@ -80,15 +80,23 @@ const LoginPage = () => {
       return;
     }
     setCodeError("");
+    setResendSuccess("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1500));
-    setServerError("Invalid verification code. Please try again.");
+    // Simulate: code "000000" is valid, anything else is invalid
+    if (verificationCode === "000000") {
+      setServerError("");
+      alert("Verification successful! Redirecting...");
+    } else {
+      setServerError("Invalid verification code. Please try again.");
+    }
     setIsSubmitting(false);
   };
 
   const handleResendEmail = async (e: React.MouseEvent) => {
     e.preventDefault();
     setResendSuccess("");
+    setServerError("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1000));
     setResendSuccess("Verification email sent successfully.");
