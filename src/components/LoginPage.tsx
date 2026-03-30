@@ -78,17 +78,23 @@ const LoginPage = () => {
     e.preventDefault();
     if (!verificationCode) {
       setCodeError("Enter the verification code");
+      setServerError("");
+      setResendSuccess("");
+      setVerifySuccess("");
       return;
     }
     setCodeError("");
     setResendSuccess("");
+    setVerifySuccess("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1500));
     // Simulate: code "000000" is valid, anything else is invalid
     if (verificationCode === "000000") {
       setServerError("");
+      setResendSuccess("");
       setVerifySuccess("Verification successful!");
     } else {
+      setVerifySuccess("");
       setServerError("Invalid verification code. Please try again.");
     }
     setIsSubmitting(false);
@@ -98,6 +104,7 @@ const LoginPage = () => {
     e.preventDefault();
     setResendSuccess("");
     setServerError("");
+    setVerifySuccess("");
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1000));
     setResendSuccess("Verification email sent successfully.");
