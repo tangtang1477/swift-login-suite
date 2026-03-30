@@ -383,24 +383,28 @@ const LoginPage = () => {
             </form>
 
             {/* Open mailbox & Resend */}
-            <div className="mt-4 flex items-center justify-center gap-6">
+            <div className="mt-4 flex items-center justify-center gap-2">
               <a
                 href={`https://${email.split("@")[1] || ""}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline transition-all duration-150"
-                style={{ fontSize: "16px", lineHeight: "24px", color: "rgba(255, 255, 255, 0.7)" }}
+                className="flex-1 flex items-center justify-center transition-all duration-150 ease-out"
+                onMouseEnter={() => setHoveredBtn("openmail")}
+                onMouseLeave={() => setHoveredBtn(null)}
+                style={getSocialButtonStyle("openmail")}
               >
                 Open {email.split("@")[1] || "mailbox"}
               </a>
-              <a
-                href="#"
+              <button
+                type="button"
                 onClick={handleResendEmail}
-                className="hover:underline transition-all duration-150"
-                style={{ fontSize: "16px", lineHeight: "24px", color: "rgba(255, 255, 255, 0.7)" }}
+                className="flex-1 flex items-center justify-center transition-all duration-150 ease-out"
+                onMouseEnter={() => setHoveredBtn("resend")}
+                onMouseLeave={() => setHoveredBtn(null)}
+                style={getSocialButtonStyle("resend")}
               >
                 Resend email
-              </a>
+              </button>
             </div>
 
             {/* Divider */}
