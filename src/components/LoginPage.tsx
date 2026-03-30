@@ -94,6 +94,7 @@ const LoginPage = () => {
       setResendSuccess("");
       setVerifySuccess("Verification successful!");
     } else {
+      setVerifySuccess("");
       setServerError("Invalid verification code. Please try again.");
     }
     setIsSubmitting(false);
