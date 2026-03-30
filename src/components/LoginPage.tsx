@@ -58,7 +58,7 @@ const LoginPage = () => {
     const eErr = validateEmail(email);
     setEmailError(eErr);
 
-    const pErr = password ? "" : "Enter your password";
+    const pErr = !password ? "Enter your password" : password.length < 8 ? "Password must be at least 8 characters" : "";
     if (!showInlinePassword) {
       // password not visible yet, only validate email
       if (eErr) return;
