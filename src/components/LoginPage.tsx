@@ -18,6 +18,7 @@ const LoginPage = () => {
   const [codeError, setCodeError] = useState("");
   const [serverError, setServerError] = useState("");
   const [resendSuccess, setResendSuccess] = useState("");
+  const [verifySuccess, setVerifySuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInlinePassword, setShowInlinePassword] = useState(false);
   const passwordRef = useRef<HTMLInputElement>(null);
